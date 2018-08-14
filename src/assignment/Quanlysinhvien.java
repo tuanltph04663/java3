@@ -25,9 +25,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Quanlysinhvien extends javax.swing.JFrame {
 
-    private static final String CLASS_NAME = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";
+    private static final String CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";
     private static final String USER = "sa";
     private static final String PASSWORD = "1";
+    
+    private static final String SELECT_ALL = "SELECT * FROM sinhvien";
+    private static final String INSERT_INTO = "INSERT INTO sinhvien VALUES(?,?,?,?)";
+    private static final String UPDATE = "UPDATE sinhvien SET HoTen=?,Email=?,SDT=?,GioTinh=?,DiaChi=? WHERE MaSV=?";
     
     /**
      * Creates new form Quanlysinhvien
@@ -48,11 +53,10 @@ public class Quanlysinhvien extends javax.swing.JFrame {
         try {
             model = (DefaultTableModel) tblPro.getModel();//load dl len tb
             model.setRowCount(0);
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");//load driver
-            Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);//ket noi sql server
+            Class.forName(CLASS_NAME);//load driver
+            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
             Statement stm = cn.createStatement();//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
-            String sql = "select * from sinhvien";
-            ResultSet rs = stm.executeQuery(sql);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
+            ResultSet rs = stm.executeQuery(SELECT_ALL);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
             //
             while (rs.next()) {
                 Vector row = new Vector();
@@ -331,11 +335,10 @@ public class Quanlysinhvien extends javax.swing.JFrame {
 
         try {
 
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");//load driver
-            Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);//ket noi sql server
-            String sql = "insert into sinhvien values(?,?,?,?)";
-            PreparedStatement stm = cn.prepareStatement(sql);//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
-            ResultSet rs = stm.executeQuery(sql);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
+            Class.forName(CLASS_NAME);//load driver
+            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
+            PreparedStatement stm = cn.prepareStatement(INSERT_INTO);//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
+            ResultSet rs = stm.executeQuery(INSERT_INTO);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
             stm.setString(1, txtMasv.getText());
             stm.setString(2, txtHoten.getText());
             stm.setString(3, txtEmail.getText());
@@ -365,10 +368,9 @@ public class Quanlysinhvien extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
 
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");//load driver
-            Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);
-            String sql = "UPDATE sinhvien SET HoTen = ?,Email = ?,SDT = ?,GioTinh = ?,DiaChi = ? WHERE MaSV = ?";
-            PreparedStatement stm = cn.prepareStatement(sql);
+            Class.forName(CLASS_NAME);//load driver
+            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);
+            PreparedStatement stm = cn.prepareStatement(UPDATE);
             stm.setString(1, txtMasv.getText());
             stm.setString(2, txtHoten.getText());
             stm.setString(3, txtEmail.getText());
