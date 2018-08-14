@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,9 +17,12 @@ import javax.swing.JOptionPane;
  */
 public class Dangnhap extends javax.swing.JFrame {
 
-    private static final String CLASS_NAME = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";
+    private static final String CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";
     private static final String USER = "sa";
     private static final String PASSWORD = "1";
+    private static final String SELECT_WHERE = "SELECT * FROM loginfrom WHERE usename=? and password=?";
+    
 
     /**
      * Creates new form Dangnhap
@@ -156,10 +158,9 @@ public class Dangnhap extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
         } else {
             try {
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");//load driver
-                Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);//ket noi sql server
-                String sql = "SELECT * FROM loginfrom WHERE usename=? and password=?";
-                PreparedStatement stm = cn.prepareStatement(sql);//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
+                Class.forName(CLASS_NAME);//load driver
+                Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
+                PreparedStatement stm = cn.prepareStatement(SELECT_WHERE);//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
                 stm.setString(1, usename);
                 stm.setString(2, password);
                 ResultSet rs = stm.executeQuery();
