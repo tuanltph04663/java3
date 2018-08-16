@@ -1,22 +1,31 @@
 package model;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class StudentDAO extends DAO<Student> {
 
+    private static final String INSERT_INTO = "";
+    private static final String UPDATE_INTO = "";
+    private static final String SELECT_ALL = "";
+    private static final String SELECT_WHERE = "";
+
     @Override
-    public List<Student> getAll() throws SQLException {
-        return null;
+    public void add(Student e) {
+        // TODO add Student handle
     }
 
     @Override
-    public Student findByName(List<Student> entities, String name) {
+    public void update(Student e) {
+        // TODO update Student handle
+    }
+
+    public List<Student> getAllStudents() {
+        // TODO get all student handle
         return null;
     }
 
-    @Override
-    public Student findById(List<Student> entities, int id) {
+    public Student findByCode(String code) {
+        // TODO find Student by code
         return null;
     }
 
