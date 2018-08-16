@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package assignment;
+package app;
 
 
 import java.io.File;
@@ -174,7 +174,6 @@ public class Quanlysinhvien extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnNew.setIcon(new javax.swing.ImageIcon("C:\\Users\\lamth\\Desktop\\Java3\\Images\\Actions\\Add_16x16.png")); // NOI18N
         btnNew.setText("New");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,7 +181,6 @@ public class Quanlysinhvien extends javax.swing.JFrame {
             }
         });
 
-        btnSave.setIcon(new javax.swing.ImageIcon("C:\\Users\\lamth\\Desktop\\Java3\\Images\\Save\\Save_16x16.png")); // NOI18N
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,7 +188,6 @@ public class Quanlysinhvien extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setIcon(new javax.swing.ImageIcon("C:\\Users\\lamth\\Desktop\\Java3\\Images\\Edit\\Delete_16x16.png")); // NOI18N
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,7 +195,6 @@ public class Quanlysinhvien extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate.setIcon(new javax.swing.ImageIcon("C:\\Users\\lamth\\Desktop\\Java3\\Images\\Edit\\Edit_16x16.png")); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -310,7 +306,7 @@ public class Quanlysinhvien extends javax.swing.JFrame {
                     .addComponent(jScrollPane1))
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
