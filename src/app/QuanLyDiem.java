@@ -1,69 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package app;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Vector;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author tabic
  */
-public class quanlydiem extends javax.swing.JFrame {
+public class QuanLyDiem extends javax.swing.JFrame {
 
-    private static final String CLASS_NAME = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "1";
     /**
      * Creates new form quanlidiem
      */
-    int pos = 0;
-    int index;
-    ResultSet rs;
-    DefaultTableModel model = new DefaultTableModel();
 
-    public quanlydiem() {
+    public QuanLyDiem() {
         initComponents();
         setLocationRelativeTo(this);
-        LoadDatatotable();
-        index = 0;
-        showdetail(index);
     }
 
     public void LoadDatatotable() {
-        try {
-            model = (DefaultTableModel) tblPro.getModel();
-            model.setRowCount(0);
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);
-            Statement stm = cn.createStatement();
-            String sql = "select * from grade";
-            ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()) {
-                Vector row = new Vector();
-                row.add(rs.getString(2));
-                row.add(rs.getString(3));
-                row.add(rs.getString(4));
-                row.add(rs.getString(5));
-                row.add(rs.getString(6));
-                row.add(rs.getString(7));
-
-                model.addRow(row);
-            }
-            tblPro.setModel(model);
-            cn.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        
     }
 
     public void showdetail(int index) {
@@ -83,20 +36,6 @@ public class quanlydiem extends javax.swing.JFrame {
         txtTinhoc.setText(null);
         txtGdtc.setText(null);
         txtDiemTb.setText(null);
-    }
-
-    public ResultSet find(String s) {
-        try {
-            // TODO add your handling code here:
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);
-            Statement stm = cn.createStatement();
-            stm = cn.prepareStatement("SELECT * FROM sinhvien WHERE MaSV = ?");
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-        return rs;
     }
 
     /**
@@ -406,8 +345,7 @@ public class quanlydiem extends javax.swing.JFrame {
 
     private void btnprevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprevActionPerformed
         // TODO add your handling code here:
-        pos = 0;
-        showdetail(pos);
+       
     }//GEN-LAST:event_btnprevActionPerformed
 
     private void btndprevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndprevActionPerformed
@@ -422,66 +360,16 @@ public class quanlydiem extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-        try {
-
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);
-            String sql = "insert into grade values(?,?,?,?,?,?,?)";
-            PreparedStatement stm = cn.prepareStatement(sql);
-            stm.setString(1, txtHoten.getText());
-            stm.setString(2, txtMasv.getText());
-            stm.setString(3, txtTienganh.getText());
-            stm.setString(4, txtTinhoc.getText());
-            stm.setString(5, txtGdtc.getText());
-            stm.setString(6, txtDiemTb.getText());
-            stm.executeUpdate();
-            cn.close();
-            LoadDatatotable();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+       
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);
-            String sql = "update grade set Hoten=?, Gioitinh=?,Quequan=? where MaSV=?";
-            PreparedStatement stm = cn.prepareStatement(sql);
-            stm.setString(1, txtHoten.getText());
-            stm.setString(2, txtMasv.getText());
-            stm.setString(3, txtTienganh.getText());
-            stm.setString(4, txtTinhoc.getText());
-            stm.setString(5, txtGdtc.getText());
-            stm.setString(6, txtDiemTb.getText());
-
-            stm.executeUpdate();
-            JOptionPane.showMessageDialog(this, "update thành công!");
-            cn.close();
-            LoadDatatotable();
-
-        } catch (Exception e) {
-            System.out.println(e);
-            JOptionPane.showMessageDialog(this, "Error");
-        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection cn = DriverManager.getConnection(CLASS_NAME, USER, PASSWORD);
-            String sql = "delete from grade where Masv=?";
-            PreparedStatement stm = cn.prepareStatement(sql);
-            stm.setString(1, txtMasv.getText());
-            stm.executeUpdate();
-            cn.close();
-            LoadDatatotable();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Xóa không thành công");
-        }
-        clear();
+        
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblProMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProMouseReleased
@@ -492,18 +380,7 @@ public class quanlydiem extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        rs = find(txtSearchMasv.getText());
-
-        try {
-            if (rs.next()) {
-                txtHoten.setText(rs.getString("HoTen"));
-                txtMasv.setText(rs.getString("MaSV"));
-            } else {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi Data");
-        }
+        
     }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
@@ -523,21 +400,23 @@ public class quanlydiem extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(quanlydiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuanLyDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(quanlydiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuanLyDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(quanlydiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuanLyDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(quanlydiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuanLyDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new quanlydiem().setVisible(true);
+                new QuanLyDiem().setVisible(true);
             }
         });
     }

@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * @author RZ09
  */
 public class DBConn {
-
+    
     private static Connection conn;
     private static final String CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";

@@ -23,59 +23,44 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author tabic
  */
-public class Quanlysinhvien extends javax.swing.JFrame {
-
-    private static final String CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "1";
-    
-    private static final String SELECT_ALL = "SELECT * FROM sinhvien";
-    private static final String INSERT_INTO = "INSERT INTO sinhvien VALUES(?,?,?,?)";
-    private static final String UPDATE = "UPDATE sinhvien SET HoTen=?,Email=?,SDT=?,GioTinh=?,DiaChi=? WHERE MaSV=?";
+public class QuanLySinhVien extends javax.swing.JFrame {
     
     /**
      * Creates new form Quanlysinhvien
      */
-    int index;
-    DefaultTableModel model = new DefaultTableModel();
 
-    public Quanlysinhvien() {
+    public QuanLySinhVien() {
         initComponents();
         setLocationRelativeTo(this);
-        LoadDatatotable();
-        index = 0;
-        showdetail(index);
     }
-    String ImagePast = null;
 
     public void LoadDatatotable() {
-        try {
-            model = (DefaultTableModel) tblPro.getModel();//load dl len tb
-            model.setRowCount(0);
-            Class.forName(CLASS_NAME);//load driver
-            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
-            Statement stm = cn.createStatement();//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
-            ResultSet rs = stm.executeQuery(SELECT_ALL);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
-            //
-            while (rs.next()) {
-                Vector row = new Vector();
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
-                row.add(rs.getString(3));
-                row.add(rs.getString(4));
-                row.add(rs.getString(5));
-                row.add(rs.getString(6));
-                row.add(rs.getString(7));
-                model.addRow(row);
-            }
-            tblPro.setModel(model);
-            //rs.close();
-            //stm.close();
-            cn.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//        try {
+//            model = (DefaultTableModel) tblPro.getModel();//load dl len tb
+//            model.setRowCount(0);
+//            Class.forName(CLASS_NAME);//load driver
+//            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
+//            Statement stm = cn.createStatement();//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
+//            ResultSet rs = stm.executeQuery(SELECT_ALL);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
+//            //
+//            while (rs.next()) {
+//                Vector row = new Vector();
+//                row.add(rs.getString(1));
+//                row.add(rs.getString(2));
+//                row.add(rs.getString(3));
+//                row.add(rs.getString(4));
+//                row.add(rs.getString(5));
+//                row.add(rs.getString(6));
+//                row.add(rs.getString(7));
+//                model.addRow(row);
+//            }
+//            tblPro.setModel(model);
+//            //rs.close();
+//            //stm.close();
+//            cn.close();
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
     }
 
     //load du lieu tu table len text
@@ -329,65 +314,65 @@ public class Quanlysinhvien extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
 
-        try {
-
-            Class.forName(CLASS_NAME);//load driver
-            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
-            PreparedStatement stm = cn.prepareStatement(INSERT_INTO);//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
-            ResultSet rs = stm.executeQuery(INSERT_INTO);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
-            stm.setString(1, txtMasv.getText());
-            stm.setString(2, txtHoten.getText());
-            stm.setString(3, txtEmail.getText());
-            stm.setInt(4, Integer.parseInt(txtSdt.getText()));
-
-            if (radioNam.isSelected()) {
-                stm.setString(5, radioNam.getText());
-            }
-            if (radioNu.isSelected()) {
-                stm.setString(5, radioNu.getText());
-            }
-
-            stm.setString(6, txtDiachi.getText());
-            InputStream img = new FileInputStream(new File(ImagePast));
-            stm.setBlob(7, img);
-            stm.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Thêm thành công");
-            cn.close();
-            LoadDatatotable();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Thêm không thành công");
-        }
+//        try {
+//
+//            Class.forName(CLASS_NAME);//load driver
+//            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
+//            PreparedStatement stm = cn.prepareStatement(INSERT_INTO);//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
+//            ResultSet rs = stm.executeQuery(INSERT_INTO);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
+//            stm.setString(1, txtMasv.getText());
+//            stm.setString(2, txtHoten.getText());
+//            stm.setString(3, txtEmail.getText());
+//            stm.setInt(4, Integer.parseInt(txtSdt.getText()));
+//
+//            if (radioNam.isSelected()) {
+//                stm.setString(5, radioNam.getText());
+//            }
+//            if (radioNu.isSelected()) {
+//                stm.setString(5, radioNu.getText());
+//            }
+//
+//            stm.setString(6, txtDiachi.getText());
+//            InputStream img = new FileInputStream(new File(ImagePast));
+//            stm.setBlob(7, img);
+//            stm.executeUpdate();
+//            JOptionPane.showMessageDialog(this, "Thêm thành công");
+//            cn.close();
+//            LoadDatatotable();
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, "Thêm không thành công");
+//        }
 
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        try {
-
-            Class.forName(CLASS_NAME);//load driver
-            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);
-            PreparedStatement stm = cn.prepareStatement(UPDATE);
-            stm.setString(1, txtMasv.getText());
-            stm.setString(2, txtHoten.getText());
-            stm.setString(3, txtEmail.getText());
-            stm.setInt(4, Integer.parseInt(txtSdt.getText()));
-            if (radioNam.isSelected()) {
-                stm.setString(5, radioNam.getText());
-            }
-            if (radioNu.isSelected()) {
-                stm.setString(5, radioNu.getText());
-            }
-
-            stm.setString(6, txtDiachi.getText());
-            //stm.setString(7, jPanel1.toString());
-
-            stm.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-            cn.close();
-            LoadDatatotable();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//        try {
+//
+//            Class.forName(CLASS_NAME);//load driver
+//            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);
+//            PreparedStatement stm = cn.prepareStatement(UPDATE);
+//            stm.setString(1, txtMasv.getText());
+//            stm.setString(2, txtHoten.getText());
+//            stm.setString(3, txtEmail.getText());
+//            stm.setInt(4, Integer.parseInt(txtSdt.getText()));
+//            if (radioNam.isSelected()) {
+//                stm.setString(5, radioNam.getText());
+//            }
+//            if (radioNu.isSelected()) {
+//                stm.setString(5, radioNu.getText());
+//            }
+//
+//            stm.setString(6, txtDiachi.getText());
+//            //stm.setString(7, jPanel1.toString());
+//
+//            stm.executeUpdate();
+//            JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+//            cn.close();
+//            LoadDatatotable();
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -419,20 +404,21 @@ public class Quanlysinhvien extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Quanlysinhvien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuanLySinhVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Quanlysinhvien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuanLySinhVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Quanlysinhvien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuanLySinhVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Quanlysinhvien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuanLySinhVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Quanlysinhvien().setVisible(true);
+                new QuanLySinhVien().setVisible(true);
             }
         });
     }

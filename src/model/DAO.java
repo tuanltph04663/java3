@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.util.List;
 import util.DBConn;
 
 public abstract class DAO<E> {
@@ -10,5 +11,9 @@ public abstract class DAO<E> {
     abstract public void add(E e);
     
     abstract public void update(E e);
+    
+    abstract public List<E> getAll();
+    
+    abstract public E findBy(String id);
     
 }

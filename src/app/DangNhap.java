@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author tabic
  */
-public class Dangnhap extends javax.swing.JFrame {
+public class DangNhap extends javax.swing.JFrame {
 
     private static final String CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";
@@ -27,7 +27,7 @@ public class Dangnhap extends javax.swing.JFrame {
     /**
      * Creates new form Dangnhap
      */
-    public Dangnhap() {
+    public DangNhap() {
         initComponents();
         setLocationRelativeTo(this);
     }
@@ -172,7 +172,7 @@ public class Dangnhap extends javax.swing.JFrame {
 
                     //so sánh nếu s1 == với qlnv của chuỗi role thì đăng nhập tới main của QLNV
                     if (s1.equalsIgnoreCase("qlsv")) {
-                        Quanlysinhvien qlsv = new Quanlysinhvien();
+                        QuanLySinhVien qlsv = new QuanLySinhVien();
                         JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
                         //hiển thị frame QLNV
                         qlsv.setVisible(true);
@@ -180,7 +180,7 @@ public class Dangnhap extends javax.swing.JFrame {
                         setVisible(false);
                     }
                     if (s1.equalsIgnoreCase("qld")) {
-                        quanlydiem qld = new quanlydiem();
+                        QuanLyDiem qld = new QuanLyDiem();
                         JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
                         qld.setVisible(true);
                         setVisible(false);
@@ -213,20 +213,21 @@ public class Dangnhap extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dangnhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dangnhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dangnhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dangnhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dangnhap().setVisible(true);
+                new DangNhap().setVisible(true);
             }
         });
     }
