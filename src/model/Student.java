@@ -8,19 +8,19 @@ public class Student {
     private String phoneNumber;
     private String gender;
     private String address;
-    private Point point;
+    private String image;
 
     public Student() {
     }
 
-    public Student(String studentCode, String fullName, String email, String phoneNumber, String gender, String address, Point point) {
+    public Student(String studentCode, String fullName, String email, String phoneNumber, String gender, String address, String image) {
         this.studentCode = studentCode;
         this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.address = address;
-        this.point = point;
+        this.image = image;
     }
 
     public String getStudentCode() {
@@ -71,17 +71,17 @@ public class Student {
         this.address = address;
     }
 
-    public Point getPoint() {
-        return point;
+    public String getImage() {
+        return image;
     }
 
-    public void setPoint(Point point) {
-        this.point = point;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override
     public String toString() {
-        return "Student{" + "studentCode=" + studentCode + ", fullName=" + fullName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", gender=" + gender + ", address=" + address + ", point=" + point + '}';
+        return "Student{" + "studentCode=" + studentCode + ", fullName=" + fullName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", gender=" + gender + ", address=" + address + ", image=" + image + '}';
     }
-    
+
 }

@@ -38,13 +38,13 @@ public class PointDAO extends DAO<Point> {
             Statement stm = CONN.createStatement();
             ResultSet rs = stm.executeQuery(SELECT_ALL);
             while (rs.next()) {
-                String english = rs.getString("english");
-                String math = rs.getString("math");
-                String informatics = rs.getString("informatics");
-                String physicalEducation = rs.getString("physicalEducation");
-
-                Point p = new Point(english, math, informatics, physicalEducation);
-                points.add(p);
+//                double english = rs.getString("english");
+//                double math = rs.getString("math");
+//                double informatics = rs.getString("informatics");
+//                double physicalEducation = rs.getString("physicalEducation");
+//
+//                Point p = new Point(english, math, informatics, physicalEducation);
+//                points.add(p);
             }
             return points;
         } catch (SQLException ex) {
