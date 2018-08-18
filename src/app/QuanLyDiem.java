@@ -1,41 +1,68 @@
 package app;
 
+import controller.QuanLyDiemController;
+import model.Point;
+import model.PointDAO;
+
 /**
  *
  * @author tabic
  */
 public class QuanLyDiem extends javax.swing.JFrame {
 
+    private QuanLyDiemController quanLyDiemController;
+    private PointDAO pointDAO;
+
     /**
      * Creates new form quanlidiem
      */
-
     public QuanLyDiem() {
         initComponents();
         setLocationRelativeTo(this);
+        pointDAO = new PointDAO();
+
+        quanLyDiemController = new QuanLyDiemController();
+        quanLyDiemController.filToTable(pointDAO.getAll(), tblPro);
+
     }
 
-    public void LoadDatatotable() {
-        
-    }
-
-    public void showdetail(int index) {
-        txtHoten.setText(tblPro.getValueAt(index, 0).toString());
-        txtMasv.setText(tblPro.getValueAt(index, 1).toString());
-        txtTienganh.setText(tblPro.getValueAt(index, 2).toString());
-        txtTinhoc.setText(tblPro.getValueAt(index, 3).toString());
-        txtGdtc.setText(tblPro.getValueAt(index, 4).toString());
-        txtDiemTb.setText(tblPro.getValueAt(index, 5).toString());
-        tblPro.setRowSelectionInterval(index, index);
-    }
-
-    public void clear() {
+    private void clearForm() {
         txtHoten.setText(null);
         txtMasv.setText(null);
         txtTienganh.setText(null);
         txtTinhoc.setText(null);
         txtGdtc.setText(null);
         txtDiemTb.setText(null);
+    }
+
+    private Point formToPoint() {
+        String studentCode = txtMasv.getText();
+        String fullName = txtHoten.getText();
+
+        // TODO xử lý exception
+        double english = Double.parseDouble(txtTienganh.getText());
+        double informatics = Double.parseDouble(txtTinhoc.getText());
+        double physicalEducation = Double.parseDouble(txtGdtc.getText());
+
+        Point p = new Point();
+        p.setStudentCode(studentCode);
+        p.setFullName(fullName);
+        p.setEnglish(english);
+        p.setInformatics(informatics);
+        p.setPhysicalEducation(physicalEducation);
+
+        return p;
+    }
+
+    private void pointToForm(Point p) {
+        txtMasv.setText(p.getStudentCode());
+        txtHoten.setText(p.getFullName());
+
+        txtTienganh.setText(String.valueOf(p.getEnglish()));
+        txtTinhoc.setText(String.valueOf(p.getInformatics()));
+        txtGdtc.setText(String.valueOf(p.getPhysicalEducation()));
+
+        txtDiemTb.setText(String.valueOf(p.getAverage()));
     }
 
     /**
@@ -84,12 +111,6 @@ public class QuanLyDiem extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel3.setText("Mã SV:");
-
-        txtSearchMasv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchMasvActionPerformed(evt);
-            }
-        });
 
         btnSearch.setText("Search");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -255,8 +276,8 @@ public class QuanLyDiem extends javax.swing.JFrame {
             }
         ));
         tblPro.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblProMouseReleased(evt);
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblPro);
@@ -339,13 +360,9 @@ public class QuanLyDiem extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtSearchMasvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchMasvActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchMasvActionPerformed
-
     private void btnprevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprevActionPerformed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_btnprevActionPerformed
 
     private void btndprevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndprevActionPerformed
@@ -355,33 +372,53 @@ public class QuanLyDiem extends javax.swing.JFrame {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
-        clear();
+        clearForm();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-       
+        pointDAO.add(formToPoint());
+
+        // TODO JOption
+        // reload table
+        quanLyDiemController.filToTable(pointDAO.getAll(), tblPro);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        pointDAO.update(formToPoint());
+
+        // reload table
+        quanLyDiemController.filToTable(pointDAO.getAll(), tblPro);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_btnDeleteActionPerformed
+        pointDAO.delete(txtMasv.getText());
 
-    private void tblProMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProMouseReleased
-        // TODO add your handling code here:
-        int index = tblPro.getSelectedRow();
-        showdetail(index);
-    }//GEN-LAST:event_tblProMouseReleased
+        // reload table
+        quanLyDiemController.filToTable(pointDAO.getAll(), tblPro);
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        
+        String search = txtSearchMasv.getText();
+        System.out.println(search);
+
+        for (Point point : pointDAO.search(search)) {
+            System.out.println(point);
+        }
+        quanLyDiemController.filToTable(pointDAO.search(search), tblPro);
+
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void tblProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProMouseClicked
+        // TODO add your handling code here:
+        int rowSelected = tblPro.getSelectedRow();
+        Point p = pointDAO.getAll().get(rowSelected);
+
+        pointToForm(p);
+    }//GEN-LAST:event_tblProMouseClicked
 
     /**
      * @param args the command line arguments

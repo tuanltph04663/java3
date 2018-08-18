@@ -12,9 +12,9 @@ import static model.DAO.CONN;
 public class StudentDAO extends DAO<Student> {
 
     private static final String SELECT_WHERE = "";
-    private static final String SELECT_ALL = "SELECT * FROM sinhvien";
-    private static final String INSERT_INTO = "INSERT INTO sinhvien VALUES(?,?,?,?)";
-    private static final String UPDATE_INTO = "UPDATE sinhvien SET HoTen=?,Email=?,SDT=?,GioTinh=?,DiaChi=? WHERE MaSV=?";
+    private static final String SELECT_ALL = "SELECT * FROM STUDENT";
+    private static final String INSERT_INTO = "INSERT INTO STUDENT VALUES(?,?,?,?)";
+    private static final String UPDATE_INTO = "UPDATE STUDENT SET FULL_NAME=?,EMAIL=?,PHONE_NUMBER=?,GENDER=?,ADDRESS=? WHERE STUDENT_CODE=?";
 
     @Override
     public void add(Student e) {
@@ -24,6 +24,11 @@ public class StudentDAO extends DAO<Student> {
     @Override
     public void update(Student e) {
         // TODO update Student handle
+    }
+
+    @Override
+    public void delete(String studentCode) {
+        // TODO
     }
 
     @Override

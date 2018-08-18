@@ -12,6 +12,8 @@ public abstract class DAO<E> {
     
     abstract public void update(E e);
     
+    abstract public void delete(String id);
+    
     abstract public List<E> getAll();
     
     abstract public E findBy(String id);
