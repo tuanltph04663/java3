@@ -12,11 +12,10 @@ import static model.DAO.CONN;
 
 public class StudentDAO extends DAO<Student> {
 
-    private static final String SELECT_WHERE = "";
     private static final String SELECT_ALL = "SELECT * FROM STUDENT";
     private static final String INSERT_INTO = "INSERT INTO STUDENT VALUES(?,?,?,?,?,?,?)";
-    private static final String UPDATE_INTO = "UPDATE STUDENT SET FULL_NAME=?,EMAIL=?,PHONE_NUMBER=?,GENDER=?,ADDRESS=?,IMAGE=? WHERE STUDENT_CODE=?";
-    private static final String DELETE_WHERE = "DELETE POINT WHERE STUDENT_CODE=?";
+    private static final String UPDATE_WHERE = "UPDATE STUDENT SET FULL_NAME=?,EMAIL=?,PHONE_NUMBER=?,GENDER=?,ADDRESS=?,IMAGE=? WHERE STUDENT_CODE=?";
+    private static final String DELETE_WHERE = "DELETE STUDENT WHERE STUDENT_CODE=?";
     
     @Override
     public void add(Student e) {
@@ -53,10 +52,10 @@ public class StudentDAO extends DAO<Student> {
         String phoneNumber = e.getPhoneNumber();
         String gender = e.getGender();
         String address = e.getAddress();
-        String image = e.getEmail();
+        String image = e.getImage();
 
         try {
-            PreparedStatement p = CONN.prepareStatement(UPDATE_INTO);
+            PreparedStatement p = CONN.prepareStatement(UPDATE_WHERE);
 
             p.setString(1, fullName);
             p.setString(2, email);

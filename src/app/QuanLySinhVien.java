@@ -1,8 +1,11 @@
 package app;
 
 import controller.QuanLySinhVienController;
+import java.io.File;
+import javax.swing.JFileChooser;
 import model.Student;
 import model.StudentDAO;
+import util.CopyFile;
 
 /**
  *
@@ -12,16 +15,31 @@ public class QuanLySinhVien extends javax.swing.JFrame {
 
     private QuanLySinhVienController quanLySinhVienController;
     private StudentDAO studentDAO;
+    
+    private static final String IMAGE_PATHH = "/C:/Users/RZ09/Documents/NetBeansProjects/Hoanthien3/src/imgs";
 
     /**
      * Creates new form Quanlysinhvien
      */
     public QuanLySinhVien() {
+//        System.out.println(QuanLySinhVien.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        
         initComponents();
         setLocationRelativeTo(this);
         quanLySinhVienController = new QuanLySinhVienController();
         studentDAO = new StudentDAO();
         quanLySinhVienController.fillToTable(studentDAO.getAll(), tblPro);
+
+        // group gender radio buttons
+        genderGroup.add(radioNam);
+        genderGroup.add(radioNu);
+
+        // gender default selected
+        radioNam.setSelected(true);
+        
+        
+        // hide button
+        btnChooseImage.setVisible(false);
     }
 
     private Student formToStudent() {
@@ -29,11 +47,16 @@ public class QuanLySinhVien extends javax.swing.JFrame {
         String fullName = txtHoten.getText();
         String email = txtEmail.getText();
         String phoneNumber = txtSdt.getText();
-//        String gender = 
-        String gender = "Nam";
+        String gender;
+        if (radioNam.isSelected()) {
+            gender = "Nam";
+        } else {
+            gender = "Nữ";
+        }
+
         String address = txtDiachi.getText();
         String image = "image";
-        
+
         return new Student(studentCode, fullName, email, phoneNumber, gender, address, image);
     }
 
@@ -44,10 +67,17 @@ public class QuanLySinhVien extends javax.swing.JFrame {
         txtSdt.setText(s.getPhoneNumber());
         txtDiachi.setText(s.getAddress());
 
+        if (s.getGender().equals("Nam")) {
+            radioNam.setSelected(true);
+        } else {
+            radioNu.setSelected(true);
+        }
         // TODO handle gender and image
+//        ImageIcon imageIcon = new ImageIcon(getClass().getResource("./images/img.jpg"));
+//        lblImg.setIcon(imageIcon);
     }
 
-    public void clearForm() {
+    private void clearForm() {
         txtMasv.setText(null);
         txtHoten.setText(null);
         txtEmail.setText(null);
@@ -55,6 +85,10 @@ public class QuanLySinhVien extends javax.swing.JFrame {
         radioNam.setSelected(false);
         radioNu.setSelected(false);
         txtDiachi.setText(null);
+    }
+   
+    private void drawImage(){
+        
     }
 
     /**
@@ -66,6 +100,7 @@ public class QuanLySinhVien extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        genderGroup = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -77,12 +112,12 @@ public class QuanLySinhVien extends javax.swing.JFrame {
         txtHoten = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtSdt = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
         txtDiachi = new javax.swing.JTextArea();
         radioNam = new javax.swing.JRadioButton();
         radioNu = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
         lblImg = new javax.swing.JLabel();
+        btnChooseImage = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -92,6 +127,7 @@ public class QuanLySinhVien extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản Lý Sinh Viên");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 255));
@@ -111,29 +147,48 @@ public class QuanLySinhVien extends javax.swing.JFrame {
 
         txtDiachi.setColumns(20);
         txtDiachi.setRows(5);
-        jScrollPane1.setViewportView(txtDiachi);
+        txtDiachi.setAutoscrolls(false);
 
         radioNam.setText("Nam");
+        radioNam.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         radioNu.setText("Nữ");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
 
+        lblImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/img1.jpg"))); // NOI18N
+        lblImg.setMaximumSize(new java.awt.Dimension(100, 150));
+        lblImg.setMinimumSize(new java.awt.Dimension(100, 150));
+        lblImg.setPreferredSize(new java.awt.Dimension(100, 150));
+
+        btnChooseImage.setText("Chọn ảnh...");
+        btnChooseImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChooseImageActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblImg, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(btnChooseImage)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(lblImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnChooseImage))
         );
 
         btnNew.setText("New");
@@ -198,16 +253,17 @@ public class QuanLySinhVien extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtMasv, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(txtHoten, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(txtSdt, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(radioNam)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(radioNu))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtMasv, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(txtHoten, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(txtSdt, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(radioNam)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(radioNu)))
+                            .addComponent(txtDiachi, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -219,7 +275,7 @@ public class QuanLySinhVien extends javax.swing.JFrame {
                                     .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(41, 41, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2)
@@ -231,7 +287,7 @@ public class QuanLySinhVien extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -253,22 +309,26 @@ public class QuanLySinhVien extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(radioNam)
                             .addComponent(radioNu)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel7)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnNew)
-                            .addComponent(btnSave))
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnDelete)
-                            .addComponent(btnUpdate)))
-                    .addComponent(jScrollPane1))
-                .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnNew)
+                                    .addComponent(btnSave))
+                                .addGap(19, 19, 19)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnDelete)
+                                    .addComponent(btnUpdate))))
+                        .addGap(24, 24, 24))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txtDiachi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -278,6 +338,9 @@ public class QuanLySinhVien extends javax.swing.JFrame {
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
         clearForm();
+        lblImg.setVisible(false);
+        
+        btnChooseImage.setVisible(true);
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -306,6 +369,7 @@ public class QuanLySinhVien extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         String delete = txtMasv.getText();
+        System.out.println(delete);
         studentDAO.delete(delete);
 
         // clear form
@@ -323,6 +387,21 @@ public class QuanLySinhVien extends javax.swing.JFrame {
 
         sdudentToForm(s);
     }//GEN-LAST:event_tblProMouseReleased
+
+    private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
+        // TODO add your handling code here:
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.showOpenDialog(null);
+        File file = jFileChooser.getSelectedFile();
+        String filePath = file.getAbsolutePath();
+        String fileName = file.getName();
+        
+//        CopyFile cf = new CopyFile();
+//        cf.copyFileUsingFileStreams(file, IMAGE_PATHH);
+        
+        System.out.println(filePath);
+        System.out.println(fileName);
+    }//GEN-LAST:event_btnChooseImageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -361,10 +440,12 @@ public class QuanLySinhVien extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChooseImage;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.ButtonGroup genderGroup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -373,7 +454,6 @@ public class QuanLySinhVien extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblImg;
     private javax.swing.JRadioButton radioNam;
