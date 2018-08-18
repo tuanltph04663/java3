@@ -1,83 +1,60 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package app;
 
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Vector;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import controller.QuanLySinhVienController;
+import model.Student;
+import model.StudentDAO;
 
 /**
  *
  * @author tabic
  */
 public class QuanLySinhVien extends javax.swing.JFrame {
-    
+
+    private QuanLySinhVienController quanLySinhVienController;
+    private StudentDAO studentDAO;
+
     /**
      * Creates new form Quanlysinhvien
      */
-
     public QuanLySinhVien() {
         initComponents();
         setLocationRelativeTo(this);
+        quanLySinhVienController = new QuanLySinhVienController();
+        studentDAO = new StudentDAO();
+        quanLySinhVienController.fillToTable(studentDAO.getAll(), tblPro);
     }
 
-    public void LoadDatatotable() {
-//        try {
-//            model = (DefaultTableModel) tblPro.getModel();//load dl len tb
-//            model.setRowCount(0);
-//            Class.forName(CLASS_NAME);//load driver
-//            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
-//            Statement stm = cn.createStatement();//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
-//            ResultSet rs = stm.executeQuery(SELECT_ALL);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
-//            //
-//            while (rs.next()) {
-//                Vector row = new Vector();
-//                row.add(rs.getString(1));
-//                row.add(rs.getString(2));
-//                row.add(rs.getString(3));
-//                row.add(rs.getString(4));
-//                row.add(rs.getString(5));
-//                row.add(rs.getString(6));
-//                row.add(rs.getString(7));
-//                model.addRow(row);
-//            }
-//            tblPro.setModel(model);
-//            //rs.close();
-//            //stm.close();
-//            cn.close();
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+    private Student formToStudent() {
+        String studentCode = txtMasv.getText();
+        String fullName = txtHoten.getText();
+        String email = txtEmail.getText();
+        String phoneNumber = txtSdt.getText();
+//        String gender = 
+        String gender = "Nam";
+        String address = txtDiachi.getText();
+        String image = "image";
+        
+        return new Student(studentCode, fullName, email, phoneNumber, gender, address, image);
     }
 
-    //load du lieu tu table len text
-    public void showdetail(int index) {
-        txtMasv.setText(tblPro.getValueAt(index, 0).toString());
-        txtHoten.setText(tblPro.getValueAt(index, 1).toString());
-        txtEmail.setText(tblPro.getValueAt(index, 2).toString());
-        txtSdt.setText(tblPro.getValueAt(index, 3).toString());
-        if (tblPro.getValueAt(index, 4).equals("Nam")) {
-            radioNam.setSelected(true);
-        } else if(tblPro.getValueAt(index, 4).equals("Nu")) {
-            radioNu.setSelected(true);
-        }
-        txtDiachi.setText(tblPro.getValueAt(index, 5).toString());
-        // lblImg.setIcon(ResizeImage(null,tblPro.getv().get(index).getHinhanh()));
+    private void sdudentToForm(Student s) {
+        txtMasv.setText(s.getStudentCode());
+        txtHoten.setText(s.getFullName());
+        txtEmail.setText(s.getEmail());
+        txtSdt.setText(s.getPhoneNumber());
+        txtDiachi.setText(s.getAddress());
 
-        tblPro.setRowSelectionInterval(index, index);
+        // TODO handle gender and image
+    }
+
+    public void clearForm() {
+        txtMasv.setText(null);
+        txtHoten.setText(null);
+        txtEmail.setText(null);
+        txtSdt.setText(null);
+        radioNam.setSelected(false);
+        radioNu.setSelected(false);
+        txtDiachi.setText(null);
     }
 
     /**
@@ -296,95 +273,55 @@ public class QuanLySinhVien extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void clear() {
-        txtMasv.setText(null);
-        txtHoten.setText(null);
-        txtEmail.setText(null);
-        txtSdt.setText(null);
-        radioNam.setSelected(false);
-        radioNu.setSelected(false);
-        txtDiachi.setText(null);
-    }
+
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
-        clear();
+        clearForm();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+        studentDAO.add(formToStudent());
 
-//        try {
-//
-//            Class.forName(CLASS_NAME);//load driver
-//            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
-//            PreparedStatement stm = cn.prepareStatement(INSERT_INTO);//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
-//            ResultSet rs = stm.executeQuery(INSERT_INTO);//thi hanh cau lenh truy van, tra ket qua truy van qua doi tuong ressultset
-//            stm.setString(1, txtMasv.getText());
-//            stm.setString(2, txtHoten.getText());
-//            stm.setString(3, txtEmail.getText());
-//            stm.setInt(4, Integer.parseInt(txtSdt.getText()));
-//
-//            if (radioNam.isSelected()) {
-//                stm.setString(5, radioNam.getText());
-//            }
-//            if (radioNu.isSelected()) {
-//                stm.setString(5, radioNu.getText());
-//            }
-//
-//            stm.setString(6, txtDiachi.getText());
-//            InputStream img = new FileInputStream(new File(ImagePast));
-//            stm.setBlob(7, img);
-//            stm.executeUpdate();
-//            JOptionPane.showMessageDialog(this, "Thêm thành công");
-//            cn.close();
-//            LoadDatatotable();
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, "Thêm không thành công");
-//        }
+        // clear form
+        clearForm();
 
+        // reload table
+        quanLySinhVienController.fillToTable(studentDAO.getAll(), tblPro);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-//        try {
-//
-//            Class.forName(CLASS_NAME);//load driver
-//            Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);
-//            PreparedStatement stm = cn.prepareStatement(UPDATE);
-//            stm.setString(1, txtMasv.getText());
-//            stm.setString(2, txtHoten.getText());
-//            stm.setString(3, txtEmail.getText());
-//            stm.setInt(4, Integer.parseInt(txtSdt.getText()));
-//            if (radioNam.isSelected()) {
-//                stm.setString(5, radioNam.getText());
-//            }
-//            if (radioNu.isSelected()) {
-//                stm.setString(5, radioNu.getText());
-//            }
-//
-//            stm.setString(6, txtDiachi.getText());
-//            //stm.setString(7, jPanel1.toString());
-//
-//            stm.executeUpdate();
-//            JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-//            cn.close();
-//            LoadDatatotable();
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+        studentDAO.update(formToStudent());
+
+        // clear form
+        clearForm();
+
+        // reload table
+        quanLySinhVienController.fillToTable(studentDAO.getAll(), tblPro);
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-       
+        String delete = txtMasv.getText();
+        studentDAO.delete(delete);
+
+        // clear form
+        clearForm();
+
+        // reload table
+        quanLySinhVienController.fillToTable(studentDAO.getAll(), tblPro);
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblProMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProMouseReleased
         // TODO add your handling code here:
-        int index = tblPro.getSelectedRow();
-        showdetail(index);
+        int rowSelected = tblPro.getSelectedRow();
+        Student s = studentDAO.getAll().get(rowSelected);
+
+        sdudentToForm(s);
     }//GEN-LAST:event_tblProMouseReleased
 
     /**

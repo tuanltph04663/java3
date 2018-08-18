@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,22 +14,74 @@ public class StudentDAO extends DAO<Student> {
 
     private static final String SELECT_WHERE = "";
     private static final String SELECT_ALL = "SELECT * FROM STUDENT";
-    private static final String INSERT_INTO = "INSERT INTO STUDENT VALUES(?,?,?,?)";
-    private static final String UPDATE_INTO = "UPDATE STUDENT SET FULL_NAME=?,EMAIL=?,PHONE_NUMBER=?,GENDER=?,ADDRESS=? WHERE STUDENT_CODE=?";
-
+    private static final String INSERT_INTO = "INSERT INTO STUDENT VALUES(?,?,?,?,?,?,?)";
+    private static final String UPDATE_INTO = "UPDATE STUDENT SET FULL_NAME=?,EMAIL=?,PHONE_NUMBER=?,GENDER=?,ADDRESS=?,IMAGE=? WHERE STUDENT_CODE=?";
+    private static final String DELETE_WHERE = "DELETE POINT WHERE STUDENT_CODE=?";
+    
     @Override
     public void add(Student e) {
-        // TODO add Student handle
+        String studentCode = e.getStudentCode();
+        String fullName = e.getFullName();
+        String email = e.getEmail();
+        String phoneNumber = e.getPhoneNumber();
+        String gender = e.getGender();
+        String address = e.getAddress();
+        String image = e.getImage();
+
+        try {
+            PreparedStatement p = CONN.prepareStatement(INSERT_INTO);
+
+            p.setString(1, studentCode);
+            p.setString(2, fullName);
+            p.setString(3, email);
+            p.setString(4, phoneNumber);
+            p.setString(5, gender);
+            p.setString(6, address);
+            p.setString(7, image);
+
+            p.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void update(Student e) {
-        // TODO update Student handle
+        String studentCode = e.getStudentCode();
+        String fullName = e.getFullName();
+        String email = e.getEmail();
+        String phoneNumber = e.getPhoneNumber();
+        String gender = e.getGender();
+        String address = e.getAddress();
+        String image = e.getEmail();
+
+        try {
+            PreparedStatement p = CONN.prepareStatement(UPDATE_INTO);
+
+            p.setString(1, fullName);
+            p.setString(2, email);
+            p.setString(3, phoneNumber);
+            p.setString(4, gender);
+            p.setString(5, address);
+            p.setString(6, image);
+            p.setString(7, studentCode);
+
+            p.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void delete(String studentCode) {
-        // TODO
+        try {
+            PreparedStatement p = CONN.prepareStatement(DELETE_WHERE);
+            p.setString(1, studentCode);
+
+            p.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
