@@ -28,14 +28,23 @@ public class StudentDAO extends DAO<Student> {
 
     @Override
     public List<Student> getAll() {
-        // TODO get all student handle
         List<Student> students = new ArrayList<>();
         try {
             Statement stm = CONN.createStatement();
             ResultSet rs = stm.executeQuery(SELECT_ALL);
             while (rs.next()) {
-                // TODO get data here
+                String studentCode = rs.getString("STUDENT_CODE");
+                String fullName = rs.getString("FULL_NAME");
+                String email = rs.getString("EMAIL");
+                String phoneNumber = rs.getString("PHONE_NUMBER");
+                String gender = rs.getString("GENDER");
+                String address = rs.getString("ADDRESS");
+                String image = rs.getString("IMAGE");
+
+                Student s = new Student(studentCode, fullName, email, phoneNumber, gender, address, image);
+                students.add(s);
             }
+            return students;
         } catch (SQLException ex) {
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

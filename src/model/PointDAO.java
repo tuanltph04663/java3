@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,7 +11,8 @@ import java.util.logging.Logger;
 
 public class PointDAO extends DAO<Point> {
 
-    private static final String SELECT_ALL = "SELECT * FROM grade";
+    private static final String SELECT_ALL = "SELECT * FROM POINT";
+    private static final String SELECT_WHERER = "SELECT * FROM POINT WHERE STUDENT_CODE=?";
     private static final String INSERT_INTO = "";
     private static final String UPDATE_INTO = "";
 
@@ -38,13 +40,15 @@ public class PointDAO extends DAO<Point> {
             Statement stm = CONN.createStatement();
             ResultSet rs = stm.executeQuery(SELECT_ALL);
             while (rs.next()) {
-//                double english = rs.getString("english");
-//                double math = rs.getString("math");
-//                double informatics = rs.getString("informatics");
-//                double physicalEducation = rs.getString("physicalEducation");
-//
-//                Point p = new Point(english, math, informatics, physicalEducation);
-//                points.add(p);
+                String studentCode = rs.getString("STUDENT_CODE");
+                String fullName = rs.getString("FULL_NAME");
+                double english = rs.getDouble("ENGLISH");
+                double math = rs.getDouble("MATH");
+                double informatics = rs.getDouble("INFORMATICS");
+                double physicalEducation = rs.getDouble("PHYSICAL_EDUCATION");
+
+                Point p = new Point(studentCode, fullName, english, math, informatics, physicalEducation);
+                points.add(p);
             }
             return points;
         } catch (SQLException ex) {
@@ -55,7 +59,21 @@ public class PointDAO extends DAO<Point> {
 
     @Override
     public Point findBy(String id) {
-        // TODO find handle
+        Point point = new Point();
+
+        try {
+            PreparedStatement p = CONN.prepareStatement(SELECT_WHERER);
+            p.setString(1, id);
+
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                // TODO get data here
+            }
+            return point;
+        } catch (SQLException ex) {
+            Logger.getLogger(PointDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         return null;
     }
 

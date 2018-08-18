@@ -57,7 +57,7 @@
 											"top": 77,
 											"width": 301.10205078125,
 											"height": 13,
-											"text": "Point"
+											"text": "POINT"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -200,7 +200,7 @@
 											"top": 293,
 											"width": 262.34326171875,
 											"height": 13,
-											"text": "Student"
+											"text": "STUDENT"
 										},
 										{
 											"_type": "ERDColumnCompartmentView",
@@ -345,7 +345,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFlSubjDQeA9AY="
 							},
-							"name": "Point",
+							"name": "POINT",
 							"columns": [
 								{
 									"_type": "ERDColumn",
@@ -416,7 +416,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFlSubjDQeA9AY="
 							},
-							"name": "Student",
+							"name": "STUDENT",
 							"columns": [
 								{
 									"_type": "ERDColumn",
