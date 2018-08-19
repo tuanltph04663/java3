@@ -5,11 +5,9 @@
  */
 package app;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import model.LoginDAO;
+import model.User;
 
 /**
  *
@@ -17,12 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class DangNhap extends javax.swing.JFrame {
 
-    private static final String CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=QLSV";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "1";
-    private static final String SELECT_WHERE = "SELECT * FROM loginfrom WHERE usename=? and password=?";
-    
+    private LoginDAO loginDAO;
 
     /**
      * Creates new form Dangnhap
@@ -143,9 +136,6 @@ public class DangNhap extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        // if (evt.getSource() == btnCancel) {
-        //     this.setVisible(false);
-        // }
         System.exit(0);
     }//GEN-LAST:event_btnCancelActionPerformed
 
@@ -153,48 +143,41 @@ public class DangNhap extends javax.swing.JFrame {
         // TODO add your handling code here:
         String usename = txtUsername.getText();
         String password = txtPassword.getText();
+        User user = new User();
 
         if (usename.equals("") || password.equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
         } else {
-            try {
-                Class.forName(CLASS_NAME);//load driver
-                Connection cn = DriverManager.getConnection(URL, USER, PASSWORD);//ket noi sql server
-                PreparedStatement stm = cn.prepareStatement(SELECT_WHERE);//su dung ket noi de tao cau lenh,statement: thi hanh cau lenh tai thoi diem goi
-                stm.setString(1, usename);
-                stm.setString(2, password);
-                ResultSet rs = stm.executeQuery();
-
-                if (rs.next()) {
-                    //lấy dữ liệu chuỗi role về
-                    String s1 = rs.getString("role");
-                    System.out.println(s1);
-
-                    //so sánh nếu s1 == với qlnv của chuỗi role thì đăng nhập tới main của QLNV
-                    if (s1.equalsIgnoreCase("qlsv")) {
-                        QuanLySinhVien qlsv = new QuanLySinhVien();
-                        JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-                        //hiển thị frame QLNV
-                        qlsv.setVisible(true);
-                        //khi đã đăng nhập thì ẩn phần frame login
-                        setVisible(false);
-                    }
-                    if (s1.equalsIgnoreCase("qld")) {
-                        QuanLyDiem qld = new QuanLyDiem();
-                        JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-                        qld.setVisible(true);
-                        setVisible(false);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Đăng nhập không thành công");
-                }
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+            loginDAO = new LoginDAO();
+            user = loginDAO.authentication(usename, password);
         }
 
+        // check role
+        if (loginDAO.isQLSV(user)) {
+            showQuanLySinhVienForm();
+        } else if (loginDAO.isQLD(user)) {
+            showQuanLyDiemForm();
+        } else {
+            JOptionPane.showMessageDialog(this, "Đăng nhập không thành công");
+        }
 
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void showQuanLySinhVienForm() {
+        QuanLySinhVien qlsv = new QuanLySinhVien();
+        JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+        //hiển thị frame QLNV
+        qlsv.setVisible(true);
+        //khi đã đăng nhập thì ẩn phần frame login
+        setVisible(false);
+    }
+
+    private void showQuanLyDiemForm() {
+        QuanLyDiem qld = new QuanLyDiem();
+        JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+        qld.setVisible(true);
+        setVisible(false);
+    }
 
     /**
      * @param args the command line arguments
