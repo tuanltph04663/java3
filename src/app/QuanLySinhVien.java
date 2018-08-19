@@ -2,6 +2,9 @@ package app;
 
 import controller.QuanLySinhVienController;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import model.Student;
 import model.StudentDAO;
@@ -16,7 +19,9 @@ public class QuanLySinhVien extends javax.swing.JFrame {
     private QuanLySinhVienController quanLySinhVienController;
     private StudentDAO studentDAO;
     
-    private static final String IMAGE_PATHH = "/C:/Users/RZ09/Documents/NetBeansProjects/Hoanthien3/src/imgs";
+    private static final String SAVE_PATH = "C:\\Users\\RZ09\\Documents\\NetBeansProjects\\Hoanthien3\\src\\imgs\\";
+    
+    
 
     /**
      * Creates new form Quanlysinhvien
@@ -385,17 +390,21 @@ public class QuanLySinhVien extends javax.swing.JFrame {
 
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         // TODO add your handling code here:
-        JFileChooser jFileChooser = new JFileChooser();
-        jFileChooser.showOpenDialog(null);
-        File file = jFileChooser.getSelectedFile();
-        String filePath = file.getAbsolutePath();
-        String fileName = file.getName();
-        
-//        CopyFile cf = new CopyFile();
-//        cf.copyFileUsingFileStreams(file, IMAGE_PATHH);
-        
-        System.out.println(filePath);
-        System.out.println(fileName);
+        try {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.showOpenDialog(null);
+            File file = jFileChooser.getSelectedFile();
+            String sourcePath = file.getAbsolutePath();
+            String fileName = file.getName();
+            
+            CopyFile cf = new CopyFile();
+            cf.copyFileUsingFileStreams(sourcePath, SAVE_PATH, fileName);
+            
+            System.out.println(sourcePath);
+            System.out.println(fileName);
+        } catch (IOException ex) {
+            Logger.getLogger(QuanLySinhVien.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnChooseImageActionPerformed
 
     /**
