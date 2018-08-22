@@ -1,12 +1,8 @@
 package app;
 
 import controller.QuanLySinhVienController;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import util.CopyFile;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
 
 /**
  *
@@ -14,16 +10,25 @@ import util.CopyFile;
  */
 public class TestCopyFile extends javax.swing.JFrame {
 
-//    private static final String IMAGE_PATHH = "/C:/Users/RZ09/Documents/NetBeansProjects/Hoanthien3/src/imgs/";
-    private static final String IMAGE_PATHH = "C:\\Users\\lgduc\\Documents\\java3\\src\\imgs\\";
+    private String savePath;
+    private QuanLySinhVienController controller;
 
     /**
      * Creates new form NewJFrame
      */
     public TestCopyFile() {
         initComponents();
+        controller = new QuanLySinhVienController();
+
+        String dir = System.getProperty("user.dir");
+        savePath = dir + "\\src\\imgs\\";
+        System.out.println(savePath);
     }
 
+    private void setImageIcon(String imageName) {
+        lblImage.setIcon(new ImageIcon(getClass().getResource("/imgs/" + imageName)));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,9 +93,9 @@ public class TestCopyFile extends javax.swing.JFrame {
 
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         // TODO add your handling code here:
-        QuanLySinhVienController controller = new QuanLySinhVienController();
-        controller.browserImage(IMAGE_PATHH);
+        String imageName = controller.browserImage(savePath);
 
+        setImageIcon(imageName);
     }//GEN-LAST:event_btnChooseImageActionPerformed
 
     /**
@@ -104,10 +109,12 @@ public class TestCopyFile extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(TestCopyFile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -15,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class CopyFile {
 
-    public void copyFileUsingFileStreams(String sourcePath, String savePath, String fileName) throws IOException {
+    public void copyFile(String sourcePath, String savePath, String fileName) throws IOException {
         InputStream input;
         OutputStream output;
 
@@ -28,23 +26,12 @@ public class CopyFile {
             while ((bytesRead = input.read(buf)) > 0) {
                 output.write(buf, 0, bytesRead);
             }
+
+            output.close();
+            input.close();
         } catch (FileNotFoundException e) {
             System.out.println(e);
-        } finally {
-            // finally
         }
-
-    }
-
-    public static void main(String[] args) {
-        CopyFile cf = new CopyFile();
-        String sourcePath = "C:\\Users\\lgduc\\Documents\\java3\\some.txt";
-        try {
-            cf.copyFileUsingFileStreams(sourcePath, "C:\\Users\\lgduc\\Documents\\java3\\", "some1.txt");
-        } catch (IOException ex) {
-            Logger.getLogger(CopyFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
 }

@@ -37,19 +37,25 @@ public class QuanLySinhVienController {
 
     public String browserImage(String savePath) {
         JFileChooser jFileChooser = new JFileChooser();
-        jFileChooser.showOpenDialog(null);
-        
-        File file = jFileChooser.getSelectedFile();
-        String sourcePath = file.getAbsolutePath();
-        String imageName = file.getName();
-        
-        CopyFile cf = new CopyFile();
-        try {
-            cf.copyFileUsingFileStreams(sourcePath, savePath, imageName);
-        } catch (IOException ex) {
-            Logger.getLogger(QuanLySinhVien.class.getName()).log(Level.SEVERE, null, ex);
+        int returnVal = jFileChooser.showOpenDialog(null);
+        File file;
+        String sourcePath;
+        String imageName = "100x150.png";
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            file = jFileChooser.getSelectedFile();
+            sourcePath = file.getAbsolutePath();
+            imageName = file.getName();
+
+            CopyFile cf = new CopyFile();
+            try {
+                cf.copyFile(sourcePath, savePath, imageName);
+            } catch (IOException ex) {
+                Logger.getLogger(QuanLySinhVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
+
+        System.out.println(imageName);
         return imageName;
     }
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.UIManager;
 import model.Student;
 import model.StudentDAO;
 import util.CopyFile;
@@ -18,8 +19,7 @@ public class QuanLySinhVien extends javax.swing.JFrame {
 
     private QuanLySinhVienController quanLySinhVienController;
     private StudentDAO studentDAO;
-    
-    private static final String SAVE_PATH = "C:\\Users\\RZ09\\Documents\\NetBeansProjects\\Hoanthien3\\src\\imgs\\";
+    private String savePath;
     
     
 
@@ -27,12 +27,17 @@ public class QuanLySinhVien extends javax.swing.JFrame {
      * Creates new form Quanlysinhvien
      */
     public QuanLySinhVien() {
-//        System.out.println(QuanLySinhVien.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        
+        // get system path
+        String dir = System.getProperty("user.dir");
+        savePath = dir + "\\src\\imgs\\";
         
         initComponents();
         setLocationRelativeTo(this);
         quanLySinhVienController = new QuanLySinhVienController();
         studentDAO = new StudentDAO();
+        
+        // fill list data to table
         quanLySinhVienController.fillToTable(studentDAO.getAll(), tblPro);
 
         // group gender radio buttons
@@ -41,7 +46,6 @@ public class QuanLySinhVien extends javax.swing.JFrame {
 
         // gender default selected
         radioNam.setSelected(true);
-        
         
         // hide button
         btnChooseImage.setVisible(false);
@@ -398,7 +402,7 @@ public class QuanLySinhVien extends javax.swing.JFrame {
             String fileName = file.getName();
             
             CopyFile cf = new CopyFile();
-            cf.copyFileUsingFileStreams(sourcePath, SAVE_PATH, fileName);
+            cf.copyFile(sourcePath, savePath, fileName);
             
             System.out.println(sourcePath);
             System.out.println(fileName);
@@ -418,10 +422,11 @@ public class QuanLySinhVien extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(QuanLySinhVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
